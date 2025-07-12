@@ -880,36 +880,6 @@ V万博アプリで使用されるクッキー<br/>
 </p><br/>
      
     </div>
-	    <script>
-  const scrolledTermInfo = {
-    type: "scroll",
-    value: "bottom"
-  };
-
-  function sendMessageToUnity() {
-    if (window.vuplex) {
-      window.vuplex.postMessage(scrolledTermInfo);
-    } else {
-      window.addEventListener("vuplexready", () => {
-        window.vuplex.postMessage(scrolledTermInfo);
-      });
-    }
-  }
-
-  // 觸發傳訊邏輯（可以改為捲動事件判斷底部）
-  document.addEventListener("DOMContentLoaded", () => {
-    // 例如：當頁面載入就送出訊息
-    sendMessageToUnity();
-
-    // 或者：當捲動到底部再送出
-    window.addEventListener("scroll", () => {
-      const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 20;
-      if (isBottom) {
-        sendMessageToUnity();
-      }
-    });
-  });
-</script>
 </body>
 <script type="text/javascript" src="js_init/vexpo_init.js"></script>
 </html>
