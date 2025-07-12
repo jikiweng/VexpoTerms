@@ -880,6 +880,29 @@ V万博アプリで使用されるクッキー<br/>
 </p><br/>
      
     </div>
+	    <script>
+  const scrolledTermInfo = { type: "scroll", value: "bottom" };
+
+  function sendMessageToUnity() {
+    if (window.vuplex) {
+      window.vuplex.postMessage(scrolledTermInfo);
+    } else {
+      window.addEventListener("vuplexready", () => {
+        window.vuplex.postMessage(scrolledTermInfo);
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("scroll", () => {
+      const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 20;
+      if (isBottom) {
+        sendMessageToUnity();
+      }
+    });
+  });
+</script>
+
 </body>
 <script type="text/javascript" src="js_init/vexpo_init.js"></script>
 </html>
