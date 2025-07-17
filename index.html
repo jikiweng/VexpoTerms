@@ -7,17 +7,19 @@
     <meta name="ts-ver" content="5.0.0">
     <meta name="pp-ver" content="5.0.0">
     <meta name="cp-ver" content="5.0.0">
- 
+
+    <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.min.css">
     <link rel="stylesheet" href="vexpo_init.css">
+
     <script>
         (() => {
-           const ua = navigator.userAgent.toLowerCase();
-           if(ua.includes("quest")){
-              const link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = "css_init/vexpo_init_mq.css";
-              document.head.appendChild(link);
-           }
+            const ua = navigator.userAgent.toLowerCase();
+            if (ua.includes("quest")) {
+                const link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = "css_init/vexpo_init_mq.css";
+                document.head.appendChild(link);
+            }
         })();
     </script>
 
@@ -25,11 +27,11 @@
 </head>
 
 <body>
-    <div id="content" class="content">
-    <div id="scroll-progress">0%</div>
-        <div id="term" class="term">
-
-                <h3>ユーザー向けバーチャル万博アプリ利用規約</h3>
+    <div id="content-wrapper" data-simplebar class="content" data-simplebar-auto-hide="false"
+    data-simplebar-scrollbar-min-size="80" data-simplebar-scrollbar-max-size="80">
+        <div id="scroll-progress">0%</div>
+        <div id="content" class="term">
+            <h3>ユーザー向けバーチャル万博アプリ利用規約</h3>
                 <p>
                 株式会社ＮＴＴコノキュー（以下「当社」といいます。）は、この「ユーザー向けバーチャル万博アプリ利用規約」（以下「本規約」といいます。）を定め、これにより、バーチャル万博アプリケーションの利用者(以下「ユーザー」といいます。)が、オンライン上に構築されるバーチャル空間（以下「バーチャル万博」といいます。）において、アバターを介してバーチャル会場を散策するとともに、各2025年日本国際博覧会の出展者及び催事主催者（以下総称して「出展者」といいます。）が展開するバーチャルパビリオン内部及び催事場に入り、バーチャルならではの特性を活かした展示や催事を体験すること、および実際の夢洲会場でスマートフォン等を使い現実には存在しないキャラクターや3Dの物体オブジェクトが現れるＡＲコンテンツ等を体験することを可能とするサービス（以下「本サービス」といいます。）を提供します。
                 </p><br>
@@ -878,31 +880,50 @@ V万博アプリで使用されるクッキー<br/>
 発効日及び本クッキー通知への改定<br/>
 このクッキー通知は、2025年3月27日から有効となっております。なお、法令、規制及び各種ガイドラインの制定・改正に伴い、このクッキー通知を変更する場合がございます。このクッキー通知が変更された場合は、V万博アプリ上で公表いたします。このクッキー通知に対する変更後、またその変更に関する通知を受け取った後も引き続きV万博アプリを使用することは、その変更を受け入れ、同意したことを意味するものとします。
 </p><br/>
-     
+        </div>
     </div>
-	    <script>
-  const scrolledTermInfo = { type: "scroll", value: "bottom" };
 
-  function sendMessageToUnity() {
-    if (window.vuplex) {
-      window.vuplex.postMessage(scrolledTermInfo);
-    } else {
-      window.addEventListener("vuplexready", () => {
-        window.vuplex.postMessage(scrolledTermInfo);
-      });
-    }
-  }
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+    <script>
+        let scrolledTermInfo = "";
+        let userAgent = window.navigator.userAgent.toLowerCase();
 
-  document.addEventListener("DOMContentLoaded", () => {
-    window.addEventListener("scroll", () => {
-      const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 20;
-      if (isBottom) {
-        sendMessageToUnity();
-      }
-    });
-  });
-</script>
+        window.addEventListener('load', function() {
+            const scrollElement = document.querySelector('#content-wrapper').querySelector('.simplebar-content-wrapper');
 
+            const bodyHeight = scrollElement.scrollHeight;
+            const windowHeight = scrollElement.clientHeight;
+            const bottomPoint = bodyHeight - windowHeight;
+
+            var url = window.location.href;
+            var tsVer = document.head.querySelector('[name=ts-ver][content]')?.content || "";
+            var ppVer = document.head.querySelector('[name=pp-ver][content]')?.content || "";
+            var cpVer = document.head.querySelector('[name=cp-ver][content]')?.content || "";
+            var pdVer = document.head.querySelector('[name=pd-ver][content]')?.content || "";
+            var tfVer = document.head.querySelector('[name=tf-ver][content]')?.content || "";
+            var termInfo = `${url}?ts-ver=${tsVer}&pp-ver=${ppVer}&cp-ver=${cpVer}&pd-ver=${pdVer}&tf-ver=${tfVer}`;
+
+            if (bodyHeight <= windowHeight) {
+                scrolledTermInfo = termInfo;
+            }
+
+            scrollElement.addEventListener('scroll', () => {
+                const currentPos = scrollElement.scrollTop;
+                if (bottomPoint <= currentPos) {
+                    scrolledTermInfo = termInfo;
+                }
+            });
+
+            if (userAgent.includes("quest")) {
+                document.getElementById("scroll-progress").style.visibility = "visible";
+                scrollElement.addEventListener('scroll', function() {
+                    var documentHeight = scrollElement.scrollHeight;
+                    var scrollPosition = scrollElement.scrollTop + scrollElement.clientHeight;
+                    var scrollPercentage = (scrollPosition / documentHeight) * 100;
+                    document.getElementById('scroll-progress').textContent = Math.round(scrollPercentage) + '%';
+                });
+            }
+        });
+    </script>
 </body>
-<script type="text/javascript" src="js_init/vexpo_init.js"></script>
 </html>
