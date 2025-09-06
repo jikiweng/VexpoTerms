@@ -16,6 +16,33 @@ window.addEventListener('load', function() {
             setupScrollbar();
         }, 200);
     } 
+    else{
+        window.addEventListener('load', function() {
+
+            const bodyHeight = document.body.scrollHeight
+            const windowHeight = window.innerHeight
+            const bottomPoint = bodyHeight - windowHeight
+        
+            var url = window.location.href;
+            var tsVer = document.head.querySelector('[name=ts-ver][content]') ? document.head.querySelector('[name=ts-ver][content]').content : "";
+            var ppVer = document.head.querySelector('[name=pp-ver][content]') ? document.head.querySelector('[name=pp-ver][content]').content : "";
+            var cpVer = document.head.querySelector('[name=cp-ver][content]') ? document.head.querySelector('[name=cp-ver][content]').content : "";
+            var pdVer = document.head.querySelector('[name=pd-ver][content]') ? document.head.querySelector('[name=pd-ver][content]').content : "";
+            var tfVer = document.head.querySelector('[name=tf-ver][content]') ? document.head.querySelector('[name=tf-ver][content]').content : "";
+            var termInfo = url + "?ts-ver=" + tsVer + "&pp-ver=" + ppVer + "&cp-ver=" + cpVer + "&pd-ver=" + pdVer + "&tf-ver=" + tfVer;
+        
+            if(bodyHeight <= windowHeight) {
+                scrolledTermInfo = termInfo
+            }
+        
+            window.addEventListener('scroll', () => {
+                const currentPos = window.pageYOffset
+                if (bottomPoint <= currentPos) {
+                    scrolledTermInfo = termInfo
+                }
+            })
+        })
+    }
 });
 
 function isMetaQuestBrowser() {
@@ -259,7 +286,7 @@ function updateScrollProgress() {
     }
 
     if(scrollPercentage >= 100) {
-        scrolledTermInfo = termInfo
+        scrolledTermInfo = "termInfo";
     }
     
     const progressElement = document.getElementById('scroll-progress');
@@ -275,28 +302,3 @@ function updateScrollProgress() {
         percentage: Math.round(scrollPercentage) + '%'
     });
 }
-
-window.addEventListener('load', function() {
-    const bodyHeight = document.body.scrollHeight
-    const windowHeight = window.innerHeight
-    const bottomPoint = bodyHeight - windowHeight
-
-    var url = window.location.href;
-    var tsVer = document.head.querySelector('[name=ts-ver][content]') ? document.head.querySelector('[name=ts-ver][content]').content : "";
-    var ppVer = document.head.querySelector('[name=pp-ver][content]') ? document.head.querySelector('[name=pp-ver][content]').content : "";
-    var cpVer = document.head.querySelector('[name=cp-ver][content]') ? document.head.querySelector('[name=cp-ver][content]').content : "";
-    var pdVer = document.head.querySelector('[name=pd-ver][content]') ? document.head.querySelector('[name=pd-ver][content]').content : "";
-    var tfVer = document.head.querySelector('[name=tf-ver][content]') ? document.head.querySelector('[name=tf-ver][content]').content : "";
-    var termInfo = url + "?ts-ver=" + tsVer + "&pp-ver=" + ppVer + "&cp-ver=" + cpVer + "&pd-ver=" + pdVer + "&tf-ver=" + tfVer;
-
-    if(bodyHeight <= windowHeight) {
-        scrolledTermInfo = termInfo
-    }
-
-    window.addEventListener('scroll', () => {
-        const currentPos = window.pageYOffset
-        if (bottomPoint <= currentPos) {
-            scrolledTermInfo = termInfo
-        }
-    })
-})
