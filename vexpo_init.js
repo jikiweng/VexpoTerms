@@ -17,16 +17,14 @@ window.addEventListener('load', function() {
         }, 200);
     } 
     else{
-        const bodyHeight = document.body.scrollHeight
+        const originalWrapper = document.querySelector('#content-wrapper');
+        const scrollContent = originalWrapper.querySelector('.simplebar-content');
+        const bodyHeight = scrollContent.scrollHeight;
+
         const windowHeight = window.innerHeight
         const bottomPoint = bodyHeight - windowHeight
         console.log("bodyHeight:", bodyHeight, "windowHeight:", windowHeight, "bottomPoint:", bottomPoint);
         
-        contentWrapper=document.querySelector('#content-wrapper');
-        const documentHeight = contentWrapper.scrollHeight;
-        const clientHeight = contentWrapper.clientHeight;
-        const scrollTop = contentWrapper.scrollTop;
-        console.log("documentHeight:", documentHeight, "clientHeight:", clientHeight, "scrollTop:", scrollTop);
         
         var url = window.location.href;
         var tsVer = document.head.querySelector('[name=ts-ver][content]') ? document.head.querySelector('[name=ts-ver][content]').content : "";
