@@ -22,6 +22,12 @@ window.addEventListener('load', function() {
         const bottomPoint = bodyHeight - windowHeight
         console.log("bodyHeight:", bodyHeight, "windowHeight:", windowHeight, "bottomPoint:", bottomPoint);
         
+        contentWrapper=document.querySelector('#content-wrapper');
+        const documentHeight = contentWrapper.scrollHeight;
+        const clientHeight = contentWrapper.clientHeight;
+        const scrollTop = contentWrapper.scrollTop;
+        console.log("documentHeight:", documentHeight, "clientHeight:", clientHeight, "scrollTop:", scrollTop);
+        
         var url = window.location.href;
         var tsVer = document.head.querySelector('[name=ts-ver][content]') ? document.head.querySelector('[name=ts-ver][content]').content : "";
         var ppVer = document.head.querySelector('[name=pp-ver][content]') ? document.head.querySelector('[name=pp-ver][content]').content : "";
@@ -64,10 +70,8 @@ function setupScrollbar() {
         return;
     }
     
-    // 檢查 SimpleBar 創建的各種可能的滾動容器
     let simplebarContent = null;
     
-    // 嘗試不同的 SimpleBar 類名
     const possibleSelectors = [
         '.simplebar-content-wrapper',
         '.simplebar-content',
@@ -83,7 +87,6 @@ function setupScrollbar() {
         }
     }
     
-    // 如果找不到 SimpleBar 容器，檢查原始容器是否有滾動能力
     if (simplebarContent) {
         contentWrapper = simplebarContent;
         console.log('Using SimpleBar content wrapper for scrolling');
@@ -126,7 +129,6 @@ function setupScrollbar() {
         handle: handle
     };
     
-    // 為 Meta Quest 添加多種事件監聽器
     upArea.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -182,13 +184,11 @@ function scrollUp() {
     const scrollStep = 200;
     const oldScrollTop = contentWrapper.scrollTop;
     
-    // 使用 requestAnimationFrame 確保在 Meta Quest 上正確執行
     requestAnimationFrame(() => {
         const newScrollTop = Math.max(0, contentWrapper.scrollTop - scrollStep);
         contentWrapper.scrollTop = newScrollTop;
         console.log('Scroll up:', oldScrollTop, '->', newScrollTop);
         
-        // 延遲更新進度，確保滾動完成
         setTimeout(() => {
             updateScrollProgress();
         }, 50);
@@ -201,13 +201,11 @@ function scrollDown() {
     const maxScroll = contentWrapper.scrollHeight - contentWrapper.clientHeight;
     const oldScrollTop = contentWrapper.scrollTop;
     
-    // 使用 requestAnimationFrame 確保在 Meta Quest 上正確執行
     requestAnimationFrame(() => {
         const newScrollTop = Math.min(maxScroll, contentWrapper.scrollTop + scrollStep);
         contentWrapper.scrollTop = newScrollTop;
         console.log('Scroll down:', oldScrollTop, '->', newScrollTop);
         
-        // 延遲更新進度，確保滾動完成
         setTimeout(() => {
             updateScrollProgress();
         }, 50);
@@ -276,7 +274,6 @@ function updateScrollProgress() {
     const clientHeight = contentWrapper.clientHeight;
     const scrollTop = contentWrapper.scrollTop;
     
-    // 正確的滾動進度計算
     const maxScroll = documentHeight - clientHeight;
     let scrollPercentage = 0;
     
