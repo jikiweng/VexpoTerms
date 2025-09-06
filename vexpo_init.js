@@ -36,9 +36,11 @@ window.addEventListener('load', function() {
         }
         
         window.addEventListener('scroll', () => {
-            const currentPos = window.pageYOffset
-            console.log("currentPos: ",currentPos);
-            if (bottomPoint <= currentPos) {
+            const scrollContainer = wrapper.querySelector('.simplebar-content-wrapper');
+            const scrollTop = scrollContainer.scrollTop;
+            console.log("currentPos: ",scrollTop );
+            
+            if (bottomPoint <= scrollTop ) {
                 scrolledTermInfo = termInfo
             }
         })
