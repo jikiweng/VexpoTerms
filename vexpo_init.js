@@ -11,7 +11,6 @@ window.addEventListener('load', function() {
     if (isMetaQuestBrowser()) {
         document.body.classList.add('meta-quest');
         
-        // 等待 SimpleBar 完全初始化
         setTimeout(() => {
             setupScrollbar();
         }, 200);
@@ -20,11 +19,9 @@ window.addEventListener('load', function() {
         const originalWrapper = document.querySelector('#content-wrapper');
         const scrollContent = originalWrapper.querySelector('.simplebar-content');
         const bodyHeight = scrollContent.scrollHeight;
-
         const windowHeight = window.innerHeight
         const bottomPoint = bodyHeight - windowHeight
         console.log("bodyHeight:", bodyHeight, "windowHeight:", windowHeight, "bottomPoint:", bottomPoint);
-        
         
         var url = window.location.href;
         var tsVer = document.head.querySelector('[name=ts-ver][content]') ? document.head.querySelector('[name=ts-ver][content]').content : "";
@@ -40,6 +37,7 @@ window.addEventListener('load', function() {
         
         window.addEventListener('scroll', () => {
             const currentPos = window.pageYOffset
+            console.log("currentPos: ",currentPos);
             if (bottomPoint <= currentPos) {
                 scrolledTermInfo = termInfo
             }
