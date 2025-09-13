@@ -5,7 +5,7 @@ let contentWrapper = null;
 let isDragging = false;
 let dragStartY = 0;
 let scrollStartTop = 0;
-let scrolledTermInfo = ""
+let scrolledTermInfo = "terms"
 
 window.addEventListener('load', function() {    
     if (isMetaQuestBrowser()) {
@@ -476,3 +476,4 @@ function updateScrollProgress() {
         scrolledTermInfo = termInfo
     }
 }
+
