@@ -82,7 +82,7 @@ td, th {
 }
 
 #scroll-progress {
-      visibility: hide;
+      visibility: hidden;
       position: fixed;
       top: 10px;
       right: 0%;
