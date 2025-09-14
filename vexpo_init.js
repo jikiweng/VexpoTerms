@@ -255,8 +255,8 @@ function updateHandlePosition() {
     const scrollTop = contentWrapper.scrollTop;
     const maxScroll = contentWrapper.scrollHeight - contentWrapper.clientHeight;
     
-    const topBoundary = 27; 
-    const bottomBoundary = window.innerHeight - 27; 
+    const topBoundary = 20; 
+    const bottomBoundary = window.innerHeight - 20; 
     const handleHeight = 40;
     const availableHeight = bottomBoundary - topBoundary - handleHeight;
     
