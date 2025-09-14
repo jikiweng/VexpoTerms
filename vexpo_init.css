@@ -110,7 +110,7 @@ td, th {
     position: fixed;
     right: 0;
     top: 0;
-    bottom: 0;
+    bottom: 5;
     width: 20px; 
     height: 100vh;
     z-index: 1000;
