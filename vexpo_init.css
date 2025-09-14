@@ -146,7 +146,7 @@ td, th {
 }
 
 .scroll-down-area {
-    bottom: 0;
+    bottom: 5;
 }
 
 .scroll-handle {
@@ -160,5 +160,3 @@ td, th {
     transition: all 0.2s;
     top: 20px;
 }
-
-
