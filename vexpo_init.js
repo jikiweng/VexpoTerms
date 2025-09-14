@@ -231,7 +231,7 @@ function handleDrag(e) {
     const deltaY = currentY - dragStartY;
     
     const maxScroll = contentWrapper.scrollHeight - contentWrapper.clientHeight;
-    const trackHeight = window.innerHeight - 27 - 27 - 40;
+    const trackHeight = window.innerHeight - 20 - 20 - 40;
     const scrollRatio = maxScroll / trackHeight;
     
     const newScrollTop = Math.max(0, Math.min(maxScroll, scrollStartTop + deltaY * scrollRatio));
@@ -256,7 +256,7 @@ function updateHandlePosition() {
     const maxScroll = contentWrapper.scrollHeight - contentWrapper.clientHeight;
     
     const topBoundary = 20; 
-    const bottomBoundary = window.innerHeight - 25; 
+    const bottomBoundary = window.innerHeight - 20; 
     const handleHeight = 40;
     const availableHeight = bottomBoundary - topBoundary - handleHeight;
     
