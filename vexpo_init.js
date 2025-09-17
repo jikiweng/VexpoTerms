@@ -12,12 +12,12 @@ window.addEventListener('load', function() {
         document.body.classList.add('meta-quest');
         
         setTimeout(() => {
-            setupScrollbarForQuest();
+            setupCustomScrollbarForQuest();
         }, 200);
     } 
     else{
         setTimeout(() => {
-            setupScrollbarForNonVR();
+            setupNativeScrollbarForNonVR();
         }, 200);
     }
 });
@@ -34,10 +34,20 @@ function isMetaQuestBrowser() {
     return isQuest;
 }
 
-function setupScrollbarForNonVR(){
+function setupNativeScrollbarForNonVR(){
     const originalWrapper = document.querySelector('#content-wrapper');
-    const scrollContent = originalWrapper.querySelector('.simplebar-content');
-    const bodyHeight = scrollContent.scrollHeight;
+    if (!originalWrapper) {
+        console.error('Required elements not found');
+        return;
+    }
+    
+    contentWrapper = originalWrapper;
+    console.log('Using native scrollbar for Non-VR');
+    console.log('Content wrapper:', contentWrapper);
+    console.log('Scroll height:', contentWrapper.scrollHeight);
+    console.log('Client height:', contentWrapper.clientHeight);
+    
+    const bodyHeight = contentWrapper.scrollHeight;
     const windowHeight = window.innerHeight
     const bottomPoint = bodyHeight - windowHeight
     console.log("bodyHeight:", bodyHeight, "windowHeight:", windowHeight, "bottomPoint:", bottomPoint);
@@ -54,19 +64,20 @@ function setupScrollbarForNonVR(){
         scrolledTermInfo = termInfo
     }
 
-    const scrollContainer = originalWrapper.querySelector('.simplebar-content-wrapper');     
-    scrollContainer.addEventListener('scroll', () => {        
-        const scrollTop = scrollContainer.scrollTop;
+    contentWrapper.addEventListener('scroll', () => {        
+        const scrollTop = contentWrapper.scrollTop;
         console.log("currentPos: ",scrollTop );
 
         if (bottomPoint <= scrollTop ) {
             scrolledTermInfo = termInfo
         }
+        
+        updateScrollProgress();
     })
     console.log("scrolledTermInfo:", scrolledTermInfo);
 }
 
-function setupScrollbarForQuest() {    
+function setupCustomScrollbarForQuest() {    
     const originalWrapper = document.querySelector('#content-wrapper');
     
     if (!originalWrapper) {
@@ -74,31 +85,8 @@ function setupScrollbarForQuest() {
         return;
     }
     
-    let simplebarContent = null;
-    
-    const possibleSelectors = [
-        '.simplebar-content-wrapper',
-        '.simplebar-content',
-        '.simplebar-scroll-content',
-        '[data-simplebar-content]'
-    ];
-    
-    for (const selector of possibleSelectors) {
-        simplebarContent = originalWrapper.querySelector(selector);
-        if (simplebarContent) {
-            console.log('Found SimpleBar content with selector:', selector);
-            break;
-        }
-    }
-    
-    if (simplebarContent) {
-        contentWrapper = simplebarContent;
-        console.log('Using SimpleBar content wrapper for scrolling');
-    } else {
-        contentWrapper = originalWrapper;
-        console.log('Using original content wrapper for scrolling');
-    }
-    
+    contentWrapper = originalWrapper;
+    console.log('Using custom image scrollbar for Quest');
     console.log('Content wrapper:', contentWrapper);
     console.log('Scroll height:', contentWrapper.scrollHeight);
     console.log('Client height:', contentWrapper.clientHeight);
@@ -181,6 +169,34 @@ function setupScrollbarForQuest() {
     updateHandlePosition();
     
     contentWrapper.addEventListener('scroll', updateScrollProgress);
+    
+    // 額外添加 Quest 的 scrolledTermInfo 邏輯
+    const bodyHeight = contentWrapper.scrollHeight;
+    const windowHeight = window.innerHeight
+    const bottomPoint = bodyHeight - windowHeight
+    console.log("bodyHeight:", bodyHeight, "windowHeight:", windowHeight, "bottomPoint:", bottomPoint);
+    
+    var url = window.location.href;
+    var tsVer = document.head.querySelector('[name=ts-ver][content]') ? document.head.querySelector('[name=ts-ver][content]').content : "";
+    var ppVer = document.head.querySelector('[name=pp-ver][content]') ? document.head.querySelector('[name=pp-ver][content]').content : "";
+    var cpVer = document.head.querySelector('[name=cp-ver][content]') ? document.head.querySelector('[name=cp-ver][content]').content : "";
+    var pdVer = document.head.querySelector('[name=pd-ver][content]') ? document.head.querySelector('[name=pd-ver][content]').content : "";
+    var tfVer = document.head.querySelector('[name=tf-ver][content]') ? document.head.querySelector('[name=tf-ver][content]').content : "";
+    var termInfo = url + "?ts-ver=" + tsVer + "&pp-ver=" + ppVer + "&cp-ver=" + cpVer + "&pd-ver=" + pdVer + "&tf-ver=" + tfVer;
+        
+    if(bodyHeight <= windowHeight) {
+        scrolledTermInfo = termInfo
+    }
+
+    contentWrapper.addEventListener('scroll', () => {        
+        const scrollTop = contentWrapper.scrollTop;
+        console.log("currentPos: ",scrollTop );
+
+        if (bottomPoint <= scrollTop ) {
+            scrolledTermInfo = termInfo
+        }
+    })
+    console.log("scrolledTermInfo:", scrolledTermInfo);
 }
 
 function scrollUp() {
@@ -309,6 +325,4 @@ function updateScrollProgress() {
         maxScroll: maxScroll,
         percentage: scrollPercentage + '%'
     });
-
 }
-

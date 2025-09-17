@@ -22,6 +22,8 @@ body {
     font-size: 14px;
     line-height: 18px;
     font-weight: 400;
+    overflow-y: auto; /* 原生 scrollbar 預設啟用 */
+    -webkit-overflow-scrolling: touch; /* 優化觸控滾動 */
 }
 
 p {
@@ -82,7 +84,6 @@ td, th {
 }
 
 #scroll-progress {
-      visibility: hidden;
       position: fixed;
       top: 10px;
       right: 0%;
@@ -97,13 +98,14 @@ td, th {
      overflow-wrap: break-word;
 }
 
-.simplebar-track.simplebar-vertical {
-    display: block !important;
-    right: 0;
+/* Meta Quest 隱藏原生 scrollbar */
+.meta-quest #content-wrapper {
+    overflow-y: scroll; /* 強制滾動，但隱藏軌道 */
+    scrollbar-width: none; /* Firefox 隱藏 */
 }
 
-.meta-quest .simplebar-track.simplebar-vertical {
-    display: none !important;
+.meta-quest #content-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome/Safari 隱藏 */
 }
 
 .custom-scrollbar {
@@ -127,9 +129,9 @@ td, th {
     width: 19px;
     height: 100%;
     background:
-        url('https://i.postimg.cc/d065ncRf/2025-07-11-201925.png') no-repeat top center,
-        url('https://i.postimg.cc/4NkCxGxf/bottom.png') no-repeat bottom center,
-        url('https://i.postimg.cc/hjJ3G3x3/2025-07-11-202015.png') repeat-y center;
+        url('top.png') no-repeat top center,
+        url('bottom.png') no-repeat bottom center,
+        url('middle.png') repeat-y center;
     background-size: 100% 20px, 100% 20px, 100% auto;
 }
 
@@ -154,7 +156,7 @@ td, th {
     position: absolute;
     width: 19px;
     height: 40px; 
-    background: url('https://i.postimg.cc/J43BmkcJ/botton.png') no-repeat center;
+    background: url('button.png') no-repeat center;
     background-size: 80% 100%;
     cursor: grab;
     z-index: 1003;
